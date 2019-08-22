@@ -1,0 +1,2 @@
+export const ACTION_LIST_POST = 'ACTION_LIST_POST'
+export const ACTION_COUNT = 'ACTION_COUNT'
