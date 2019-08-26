@@ -7,7 +7,6 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import {store} from './store/store'
 
-
 Vue.config.productionTip = false
 
 Vue.use(VueRouter)

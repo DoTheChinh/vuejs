@@ -13,15 +13,15 @@ const m_count = {
         }
     },
     mutations: {
-        [COUNT](state, count){
-            console.log("njsncfjsn");
+        [COUNT](state){
             state.count++
         }
     },
     actions: {
         [ACTION_COUNT](context){
-            // return new Promise((resolve, reject) => {
-            console.log(context);
+            return new Promise(() => {
+                context.commit(COUNT)   
+            })
         }
     },
 }

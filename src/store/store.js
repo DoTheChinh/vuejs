@@ -7,7 +7,7 @@ import m_count from './modules/count'
 
 
 Vue.use(Vuex)
-axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com/'
+axios.defaults.baseURL = 'http://localhost:3000/api/v1/'
 export const store = new Vuex.Store({
     modules: {
         post: m_post,
@@ -15,5 +15,3 @@ export const store = new Vuex.Store({
         count: m_count
     },
 })
-
-console.log(store.state)

@@ -11,7 +11,7 @@ const routers = [
         path: '/contact',
         name: 'contact',
         component: Contact
-    },
+    }
 ]
 
 export default routers

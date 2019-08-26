@@ -1,0 +1,58 @@
+.main-header {
+    padding-left: 5% !important;
+    padding-right: 5% !important;
+}
+.header_region {
+    height: 25px;
+    vertical-align: center;
+    text-align: right;
+    color: white !important;
+    .nav-item {
+        a {
+            color: black !important
+        };
+    }
+    // .nav-item:first-child{
+        // a{
+        //     border-right: 2px solid white;
+        //     height: 50%;
+        //     vertical-align: middle;
+        // }
+    // }
+}
+
+.title {
+    color: black ;
+    width: 15%; 
+    font-size: xx-large !important;
+}
+label {
+    font-family: 'ＭＳ Ｐゴシック', 'MS PGothic', 'メイリオ', Meiryo, sans-serif !important;
+}
+
+.size_button {
+    margin-left: 2px;
+}
+
+.bcgrd-light {
+    background-color: gainsboro;
+}
+
+.navbar-brand-text {
+    font-size: 1rem !important;
+    color: darkorange !important;
+}
+
+hr {
+    border-top: 3px solid rgba(0, 0, 0, 0.1) !important; 
+    margin-top: 0rem !important;
+}
+
+.pop_up {
+    padding-left: 5% !important;
+    padding-right: 5% !important;
+}
+
+.radio {
+    margin-left: 0.75rem !important;
+}

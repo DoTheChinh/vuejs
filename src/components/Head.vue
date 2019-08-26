@@ -72,7 +72,18 @@ export default {
     },
     methods: {
         setCount(){
-            this.$store.dispatch(ACTION_COUNT)
+             console.log(this.$store.dispatch(ACTION_COUNT))
+            this.$store.dispatch(ACTION_COUNT).then(res => {
+                console.log('aaa');
+                
+                console.log(this.$store.getters.getCount);
+                
+                this.count = this.$store.getters.getCount
+            }).catch(err=>{
+                console.log('asd');
+                
+            })
+
         },
         callApi(){
             localStorage.setItem('token', '111111111111111111111111111111111111111111111111111')
@@ -94,38 +105,4 @@ export default {
         }
     }    
 }
-
-// let watchExampleVM = new Vue({
-//     el: '#watch-example',
-//     data: {
-//         question: '',
-//         answer: 'I cannot give you an answer until you ask a question!'
-//     },
-//     watch: {
-//         question: function () {
-//             this.answer = "Waiting for you to stop typing..."
-//              this.debouncedGetAnswer()
-//         }
-//     },
-//     created: function () {
-//        this.debouncedGetAnswer = lodash.debounce(this.getAnswer, 500) 
-//     },
-//     method: {
-//         getAnswer: function () {
-//             if (this.question.indexOf('?') === -1) {
-//                 this.answer = "Questions usually contain a question mark. ? "
-//                 return
-//             }
-//             this.answer = "Thinking..."
-//             var vm = this
-//             axios.get('https://yesno.wtf/api')
-//                 .then(function (response) {
-//                     vm.answer = lodash.capitalize(response.data.answer)
-//                 })
-//                 .catch(function (error) {
-//                     vm.answer = 'Error! Could not reach the API. ' + error
-//                 })
-//         }
-//     }
-// })
 </script>
