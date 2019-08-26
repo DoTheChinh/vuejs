@@ -1,5 +1,5 @@
-import { CHANGE_X, CHANGE_TOKEN, CHANGE_IS_AUTHEN, LOAD_PARENT_CATE } from "../mutation_type";
-import { LOGIN, INSERT_AUTH, REGISTER } from "../action_type";
+import { CHANGE_X, CHANGE_TOKEN, CHANGE_IS_AUTHEN, CHANGE_PARENT_CATE } from "../mutation_type";
+import { LOGIN, INSERT_AUTH, REGISTER, LOAD_PARENT_CATE } from "../action_type";
 // import { resolve, reject } from "q";
 
 import axios from 'axios'
@@ -8,25 +8,32 @@ const m_check = {
     state: {
         is_checked: false,
         is_authen: localStorage.getItem('is_authen') ? true : false,
-        token: localStorage.getItem('token') || null
+        token: localStorage.getItem('token') || null,
+        parent_cate: {},
     },
     getters: {
-        getChecked(state){
+        getChecked(state) {
             return state.is_checked
         },
-        getIsAuthen(state){
+        getIsAuthen(state) {
             return state.is_authen
+        },
+        getParentCategory(state) {
+            return state.parent_cate
         }
     },
     mutations: {
-        [CHANGE_X](state, checked){
+        [CHANGE_X](state, checked) {
             state.is_checked = checked
         },
-        [CHANGE_IS_AUTHEN](state, is_authen){
+        [CHANGE_IS_AUTHEN](state, is_authen) {
             state.is_authen = is_authen
         },
-        [CHANGE_TOKEN](state, token){
+        [CHANGE_TOKEN](state, token) {
             state.token = token
+        },
+        [CHANGE_PARENT_CATE](state, list) {
+            state.parent_cate = list
         }
     },
     actions: {
@@ -44,22 +51,23 @@ const m_check = {
                 })
             })
         },
-        [INSERT_AUTH](context, data){
+        [INSERT_AUTH](context, data) {
             axios.defaults.headers['Authentication'] = localStorage.getItem('token')
         },
-        [REGISTER](context, data){
+        [REGISTER](context, data) {
             return new Promise((resolve, reject) => {
                 axios.post('register', data).then((res) => {
-
+                    resolve(res)
                 }).catch((error) => {
                     reject(error)
                 })
             })
         },
-        [LOAD_PARENT_CATE](context){
+        [LOAD_PARENT_CATE](context) {
             console.log(axios.defaults.baseURL)
             return new Promise((resolve, reject) => {
                 axios.get('/').then((res) => {
+                    context.commit(CHANGE_PARENT_CATE, res.data)
                     resolve(res)
                 }).catch((error) => {
                     reject(error)

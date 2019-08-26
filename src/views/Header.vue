@@ -37,26 +37,10 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse header_region" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item dropdown">
-                        <b-nav-item-dropdown text=" |  親カテゴリ 1 ">
-                            <b-dropdown-item href="#">子カテゴリ３</b-dropdown-item>
-                            <b-dropdown-item href="#">子カテゴリ３</b-dropdown-item>
-                            <b-dropdown-item href="#">子カテゴリ３</b-dropdown-item>
-                            <b-dropdown-item href="#">子カテゴリ３</b-dropdown-item>
-                        </b-nav-item-dropdown>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <b-nav-item-dropdown text=" |  親カテゴリ 1 ">
-                            <b-dropdown-item href="#">子カテゴリ３</b-dropdown-item>
-                            <b-dropdown-item href="#">子カテゴリ３</b-dropdown-item>
-                            <b-dropdown-item href="#">子カテゴリ３</b-dropdown-item>
-                            <b-dropdown-item href="#">子カテゴリ３</b-dropdown-item>
-                        </b-nav-item-dropdown>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <b-nav-item-dropdown text=" | 親カテゴリ 1 ">
-                            <b-dropdown-item href="#">子カテゴリ３</b-dropdown-item>
+                <ul v-for="items in load_parent_cate" class="navbar-nav mr-auto">
+                    <li v-for="(value, key) in items" class="nav-item dropdown">
+                        <b-nav-item-dropdown text=" | "  >{{value[0]}}
+                            <b-dropdown-item :value="key">{{value[0]}}</b-dropdown-item>
                             <b-dropdown-item href="#">子カテゴリ３</b-dropdown-item>
                             <b-dropdown-item href="#">子カテゴリ３</b-dropdown-item>
                             <b-dropdown-item href="#">子カテゴリ３</b-dropdown-item>
@@ -94,7 +78,7 @@
             </div>
         </nav>
         <hr>
-        {{list}}
+        {{load_parent_cate}}
     </div> 
     
 </template>
@@ -103,7 +87,7 @@
 </style>
 
 <script>
-import { LOAD_PARENT_CATE } from '../store/mutation_type';
+import { LOAD_PARENT_CATE } from '../store/action_type';
 import Register from './../components/register'
 import Login from './../components/login'
 import { log } from 'util';
@@ -116,6 +100,9 @@ export default {
         is_authen(){
             return this.$store.getters.getIsAuthen
         },
+        load_parent_cate(){
+            return this.$store.getters.getParentCategory
+        }
     },
     created(){
         this.fun()
@@ -123,7 +110,7 @@ export default {
     data() {
         return {
             // is_authen: false
-            list: {}
+            // lists: {}
         }
     },
     methods: {
@@ -131,7 +118,7 @@ export default {
             this.$store.dispatch(LOAD_PARENT_CATE).then((res) => {
                 console.log(res);
             }).catch((error) => {
-                
+                console.log(error);                
             })
         }
     }
