@@ -4,12 +4,12 @@
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav class="header_region">
                 <b-navbar-nav class="ml-auto">
-                    <b-button v-if="!is_authen" v-b-modal.register class="btn btn-sm size_button" type="button">メンバー登録</b-button>
+                    <b-button v-if="!getIsAuthen" v-b-modal.register class="btn btn-sm size_button" type="button">メンバー登録</b-button>
                     <register></register>
-                    <b-nav-item v-if="!is_authen"> | </b-nav-item>
-                    <b-button v-if="!is_authen" v-b-modal.login class="btn btn-sm size_button" type="button">ログイン</b-button>
+                    <b-nav-item v-if="!getIsAuthen"> | </b-nav-item>
+                    <b-button v-if="!getIsAuthen" v-b-modal.login class="btn btn-sm size_button" type="button">ログイン</b-button>
                     <login></login>
-                    <b-button v-if="is_authen" type="button">Logout</b-button>
+                    <b-button v-if="getIsAuthen" type="button">Logout</b-button>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
@@ -37,14 +37,13 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse header_region" id="navbarSupportedContent">
-                <ul v-for="items in load_parent_cate" class="navbar-nav mr-auto">
-                    <li v-for="(value, key) in items" class="nav-item dropdown">
-                        <b-nav-item-dropdown text=" | "  >{{value[0]}}
-                            <b-dropdown-item :value="key">{{value[0]}}</b-dropdown-item>
-                            <b-dropdown-item href="#">子カテゴリ３</b-dropdown-item>
-                            <b-dropdown-item href="#">子カテゴリ３</b-dropdown-item>
-                            <b-dropdown-item href="#">子カテゴリ３</b-dropdown-item>
-                        </b-nav-item-dropdown>
+                <ul class="navbar-nav mr-auto">
+                    <li v-for="(value, index) in getCategory" :key="index" class="nav-item dropdown">
+                        <b-nav-item-dropdown :value="value.id" :text=" value.name">
+                            <p v-for="(child, index_x) in value.children" :key="index_x">
+                                <b-dropdown-item :value="child.id" :text="child.name">{{child.name}}</b-dropdown-item>
+                            </p>
+                        </b-nav-item-dropdown >
                     </li>
                 </ul>
             </div>
@@ -78,7 +77,7 @@
             </div>
         </nav>
         <hr>
-        {{load_parent_cate}}
+        {{getRelease}}
     </div> 
     
 </template>
@@ -87,35 +86,27 @@
 </style>
 
 <script>
-import { LOAD_PARENT_CATE } from '../store/action_type';
+import { LOAD_CATE, LOAD_RELEASE } from '../store/action_type';
 import Register from './../components/register'
 import Login from './../components/login'
 import { log } from 'util';
+import { mapGetters } from 'vuex'
 export default {
     components: {
         Login,
         Register
     },
-    computed: {
-        is_authen(){
-            return this.$store.getters.getIsAuthen
-        },
-        load_parent_cate(){
-            return this.$store.getters.getParentCategory
-        }
-    },
+    computed: 
+        mapGetters(['getIsAuthen', 'getCategory', 'getRelease']),
+
     created(){
         this.fun()
     },
     data() {
-        return {
-            // is_authen: false
-            // lists: {}
-        }
     },
     methods: {
         fun(){
-            this.$store.dispatch(LOAD_PARENT_CATE).then((res) => {
+            this.$store.dispatch(LOAD_CATE, LOAD_RELEASE).then((res) => {
                 console.log(res);
             }).catch((error) => {
                 console.log(error);                

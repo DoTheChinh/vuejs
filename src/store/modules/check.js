@@ -1,5 +1,5 @@
-import { CHANGE_X, CHANGE_TOKEN, CHANGE_IS_AUTHEN, CHANGE_PARENT_CATE } from "../mutation_type";
-import { LOGIN, INSERT_AUTH, REGISTER, LOAD_PARENT_CATE } from "../action_type";
+import { CHANGE_X, CHANGE_TOKEN, CHANGE_IS_AUTHEN, CHANGE_CATE, CHANGE_RELEASE } from "../mutation_type";
+import { LOGIN, INSERT_AUTH, REGISTER, LOAD_CATE, LOAD_RELEASE } from "../action_type";
 // import { resolve, reject } from "q";
 
 import axios from 'axios'
@@ -9,7 +9,8 @@ const m_check = {
         is_checked: false,
         is_authen: localStorage.getItem('is_authen') ? true : false,
         token: localStorage.getItem('token') || null,
-        parent_cate: {},
+        category: {},
+        release: {},
     },
     getters: {
         getChecked(state) {
@@ -18,8 +19,11 @@ const m_check = {
         getIsAuthen(state) {
             return state.is_authen
         },
-        getParentCategory(state) {
-            return state.parent_cate
+        getCategory(state) {
+            return state.category
+        },
+        getRelease(state) {
+            return state.release
         }
     },
     mutations: {
@@ -32,9 +36,9 @@ const m_check = {
         [CHANGE_TOKEN](state, token) {
             state.token = token
         },
-        [CHANGE_PARENT_CATE](state, list) {
-            state.parent_cate = list
-        }
+        [CHANGE_CATE](state, list) {
+            state.category = list
+        },
     },
     actions: {
         [LOGIN](context, data) {
@@ -63,11 +67,22 @@ const m_check = {
                 })
             })
         },
-        [LOAD_PARENT_CATE](context) {
-            console.log(axios.defaults.baseURL)
+        [LOAD_CATE](context) {
             return new Promise((resolve, reject) => {
                 axios.get('/').then((res) => {
-                    context.commit(CHANGE_PARENT_CATE, res.data)
+                    context.commit(CHANGE_CATE, res.data.category)
+                    resolve(res)
+                }).catch((error) => {
+                    reject(error)
+                })
+            })
+        },
+        [LOAD_RELEASE](context) {
+            return new Promise((resolve, reject) => {
+                axios.get('/').then((res) => {
+                    context.commit(CHANGE_RELEASE, res.data.release)
+                    console.log( res.data.release);
+                    
                     resolve(res)
                 }).catch((error) => {
                     reject(error)
